@@ -47,7 +47,10 @@
       var canvasHeight = canvas.height;
       var ctx = canvas.getContext("2d");
 
-      const colors = ["red", "green", "blue"];
+      const colors = ["red", "orange", "yellow", "green", "blue","purple"];
+      function getColor(){
+        return colors[d6()-1];
+      }
 
       function textConsole(text) {
         var textArea = document.getElementById("console");
@@ -55,10 +58,13 @@
         textArea.scrollTop = textArea.scrollHeight;
       }
 
+      var d3 = dN(3);
+      var d6 = dN(6);
+
+
       function drawRandomPoint() {
         var point = randomPoint();
-        var d3 = dN(3);
-        var color = colors[d3()-1];
+        var color = getColor();
         var size = d3();
         textConsole(`${point.x}, ${point.y}, ${color}, ${size}\n`)
         drawPoint(point.x, point.y, color, size, ctx);
@@ -73,10 +79,9 @@
           var y_diff = Math.sin(angle)*radius;
           var x = Math.floor(center.x + x_diff);
           var y = Math.floor(center.y + y_diff);
-          var d3 = dN(3);
-          var color = colors[d3()-1];
+          var color = getColor();
           var size = d3();
-          textConsole(`${x}, ${y}, ${color}, ${size}px\n`)
+          textConsole(`${x}, ${y}, ${color}, ${size}\n`)
           drawPoint(x, y, color, size, ctx);
         }
       }
