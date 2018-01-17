@@ -3,50 +3,50 @@
   <head>
     <meta charset="UTF-8">
     <style>
-      #main {
+      .main {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 3;
       }
       #myCanvas {
         border: 1px solid gray;
         width: 600px;
-        height: 400px;
+        height: 300px;
       }
-      .left {
-        padding-right: 10px;
-        float: left;
+      #y-graph {
+        border: 1px solid gray;
       }
-      .right {
-        float: left;
-      }
+
       #console {
-        height: 400px;
+        height: 100%;
         font-family: 'Dosis', Helvetica, sans-serif;
         font-size: 1em;
+        width: 200px;
       }
-      button {
-        float: right;
-      }
+
 
     </style>
   </head>
   <body>
     <div class="main">
-      <div class="left">
-        <canvas id="myCanvas"></canvas>
-        <div class="bottom">
-          <span>
-            <a href="https://github.com/jondandois/spatial-autocorrelation-test">
-              Check out this project on Github
-            </a>
-            Jonathan Dandois
-          </span>
-        </div>
-      </div>
-      <div class="right">
-        <textarea name="console" id="console" cols="30" rows="10"></textarea>
+      <div class="buttons">
         <button id="dice" onClick="drawRandomPoint()">Random Point</button>
         <button onClick="randomPoints()">100 Random Points</button>
         <button onClick="randomCluster()">Random Cluster</button>
       </div>
+      <div></div>
+      <div></div>
+      <canvas id="myCanvas"></canvas>
+      <div id="y-graph">
+
+      </div>
+      <textarea name="console" id="console" cols="30" rows="10"></textarea>
+      <span>
+        <a href="https://github.com/jondandois/spatial-autocorrelation-test">
+          Check out this project on Github
+        </a>
+        Jonathan Dandois
+      </span>
     </div>
 
     <script>
@@ -54,6 +54,7 @@
       var canvasWidth = canvas.width;
       var canvasHeight = canvas.height;
       var ctx = canvas.getContext("2d");
+      var data = [];
 
       const colors = ["red", "orange", "yellow", "green", "blue","purple"];
       function getColor(){
@@ -118,8 +119,10 @@
       }
 
       function drawPoint(x, y, color, size, canvas){
+        data.push([x,y,color,size]);
         canvas.fillStyle = color;
         canvas.fillRect(x,y,size,size);
+        updateGraphs();
       }
 
       function randomPoint() {
@@ -127,10 +130,19 @@
         var y = getRandomArbitrary(0, canvasHeight);
         return {x: x, y: y}
       }
+
       function randomPoints() {
         for (var i = 100; i >= 0; i--) {
           drawRandomPoint();
         }
+      }
+
+      function updateGraphs() {
+        var yBins = 10;
+        var yBinWidth = canvasHeight / yBins;
+        // for (var i = yBins; i >= 0; i--) {
+        //   console.log(i, yBinWidth*i);
+        // }
       }
 
     </script>
